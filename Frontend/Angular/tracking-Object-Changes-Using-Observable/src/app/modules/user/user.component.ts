@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/shared/models/user.dto';
 
 @Component({
   selector: 'app-user',
@@ -9,16 +10,26 @@ import { Router } from '@angular/router';
 })
 export class UserComponent implements OnInit {
 
+  signedInUser: User = {
+    name: 'Faysal',
+    status: {
+      name: "ACTIVE",
+      color: "#4287f5"
+    },
+  };
+
   constructor(
     private router: Router,) { }
 
   ngOnInit(): void {
   }
+
   SignOut() {
     //sign out code
     console.log('sign out hit from parent')
     this.router.navigateByUrl('authentication');
   }
+
   StatusDropdown() {
     //sign out code
     console.log('status dropdown hit from parent')

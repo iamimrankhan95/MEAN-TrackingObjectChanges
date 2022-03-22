@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/shared/models/user.dto';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -6,21 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  friends: Friend[] = [
-    {
-      name: 'Faysal',
-      status: 'Active',
-    },
-    {
-      name: 'Akhtar',
-      status: 'Offline',
-    },
-    {
-      name: 'Jannat',
-      status: 'Active',
-    },
-  ];
-  constructor() { }
+  friends!: User[];
+  constructor(private userService:UserService) {
+    this.userService.readUsersFromServer().subscribe({
+      next: (serverResponse) => {
+        console.log(serverResponse)
+        this.friends = serverResponse.data;
+      },
+      error: (error) =>{
+        this.friends = [];
+      }
+    });
+   }
 
   ngOnInit(): void {
   }

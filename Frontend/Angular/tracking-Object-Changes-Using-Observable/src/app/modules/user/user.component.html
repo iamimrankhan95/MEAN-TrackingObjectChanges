@@ -1,5 +1,3 @@
-<mat-card>
-    <app-logged-user-status (onSignOut)="SignOut()" (onStatusChange)="StatusDropdown()"></app-logged-user-status>
-</mat-card>
-<router-outlet></router-outlet>
+<app-user-status-dropdown [signedInUser] = "signedInUser"></app-user-status-dropdown>
+<app-user-list></app-user-list>
 
