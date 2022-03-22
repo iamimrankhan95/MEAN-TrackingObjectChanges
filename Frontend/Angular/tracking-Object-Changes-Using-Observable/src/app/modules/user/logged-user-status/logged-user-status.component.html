@@ -1,0 +1,14 @@
+<mat-grid-list cols="2" rowHeight="100px">
+    <mat-grid-tile>
+        <p>User: {{username}}
+            <br />
+            {{status}}
+            <button mat-icon-button aria-level="Change Status" (click)="on_status_dropdown()">
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+        </p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <button mat-raised-button color="warn" (click)="on_sign_out()">Sign out</button>
+    </mat-grid-tile>
+</mat-grid-list>

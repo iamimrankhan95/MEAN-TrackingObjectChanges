@@ -1,0 +1,30 @@
+<app-user-status-dropdown></app-user-status-dropdown>
+<div class="row">
+  <div class="col-md-12">
+    <mat-card>
+      <mat-card-title><i class="bi bi-people-fill"></i> Friend List</mat-card-title>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let friend of friends">
+            <div>
+              <i *ngIf="friend.status === 'Active';else offlineUser" class="bi bi-person-check-fill"
+                style="font-size: 1.5rem;">
+              </i>
+              <ng-template #offlineUser>
+                <i class="bi bi-person-dash-fill" style="font-size: 1.5rem;"></i>
+              </ng-template>
+            </div>
+            &nbsp;&nbsp;
+            <div>
+              <div mat-line>
+                {{friend.name}}</div>
+              <div mat-line>
+                {{friend.status}}
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
