@@ -39,6 +39,7 @@ export class SignInComponent implements OnInit {
       next: (serverResponse) => {
         console.log(serverResponse)
         this.signedInUser = serverResponse.data;
+        this.authenticationService.signedInUser = this.signedInUser;
         this.router.navigateByUrl("user");
       },
       error: (error) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.dto';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-user',
@@ -10,16 +11,12 @@ import { User } from 'src/app/shared/models/user.dto';
 })
 export class UserComponent implements OnInit {
 
-  signedInUser: User = {
-    name: 'Faysal',
-    status: {
-      name: "ACTIVE",
-      color: "#4287f5"
-    },
-  };
+  signedInUser!: User;
 
-  constructor(
-    private router: Router,) { }
+  constructor(private authenticationService: AuthenticationService,
+    private router: Router,) { 
+      this.signedInUser = this.authenticationService.signedInUser;
+    }
 
   ngOnInit(): void {
   }

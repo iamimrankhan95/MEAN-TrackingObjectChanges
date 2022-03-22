@@ -64,8 +64,6 @@ const readStatuses = (request: Request, response: Response, next: NextFunction) 
 };
 
 const getUserSignedIn = (request: Request, response: Response, next: NextFunction) => {
-
-  console.log(request.body);
   let signedInUser: User = {
     name: 'Faysal',
     status: {

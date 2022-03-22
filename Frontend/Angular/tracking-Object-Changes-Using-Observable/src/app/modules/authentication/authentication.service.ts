@@ -8,6 +8,7 @@ import { User } from 'src/app/shared/models/user.dto';
   providedIn: 'root'
 })
 export class AuthenticationService {
+  signedInUser!: User;
 
   constructor(private httpClient: HttpClient) { }
 
