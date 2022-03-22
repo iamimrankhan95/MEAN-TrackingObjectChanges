@@ -3,7 +3,7 @@ export const urls = {
     user: {
         create: 'create-permission',
         readUsers: environment.baseUrlNode+ 'user/',
-        update: 'update-permission',
+        signIn: environment.baseUrlNode+ 'user/sign-in',
         delete: 'delete-permission',
     },
     status: {

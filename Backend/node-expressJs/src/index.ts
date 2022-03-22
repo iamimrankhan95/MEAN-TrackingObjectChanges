@@ -1,21 +1,18 @@
 import express, { Request, Response, Application, NextFunction } from 'express';
+import cors from 'cors';
 
 const app: Application = express();
+
 const PORT = process.env.PORT || 8000;
+// const allowedOrigins = ['http://localhost:4200/'];
+// const options: cors.CorsOptions = {
+//   origin: allowedOrigins
+// };
 
-interface User {
-  name: string;
-  status: Status;
-};
-
-interface Status {
-  name: string;
-  color: string;
-}
+app.use(cors());
+// app.use(express.json());
 
 const readUsers = (request: Request, response: Response, next: NextFunction) => {
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header("Access-Control-Allow-Headers", "X-Requested-With");
   let users: User[] = [
     {
       name: 'Faysal',
@@ -42,9 +39,8 @@ const readUsers = (request: Request, response: Response, next: NextFunction) => 
 
   response.status(200).json({ data: users });
 };
+
 const readStatuses = (request: Request, response: Response, next: NextFunction) => {
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header("Access-Control-Allow-Headers", "X-Requested-With");
   let statuses: Status[] = [
     {
       "name": "ACTIVE",
@@ -67,9 +63,23 @@ const readStatuses = (request: Request, response: Response, next: NextFunction) 
   response.status(200).json({ data: statuses });
 };
 
-app.get('/user', readUsers);
-app.get('/status', readStatuses);
+const getUserSignedIn = (request: Request, response: Response, next: NextFunction) => {
 
+  console.log(request.body);
+  let signedInUser: User = {
+    name: 'Faysal',
+    status: {
+      "name": "ACTIVE",
+      "color": "#4287f5"
+    },
+  };
+
+  response.status(200).json({ data: signedInUser });
+};
+
+app.get('/user', readUsers);
+app.post('/user/sign-in', getUserSignedIn);
+app.get('/status', readStatuses);
 app.get("/", (req: Request, res: Response): void => {
   res.send("Hello Typescript with Node.js!")
 });
@@ -77,3 +87,13 @@ app.get("/", (req: Request, res: Response): void => {
 app.listen(PORT, (): void => {
   console.log(`Server Running here 👉 https://localhost:${PORT}`);
 });
+
+interface User {
+  name: string;
+  status: Status;
+};
+
+interface Status {
+  name: string;
+  color: string;
+}
