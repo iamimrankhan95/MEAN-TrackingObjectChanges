@@ -1,25 +1,24 @@
 import express, { Request, Response, Application, NextFunction } from 'express';
 import cors from 'cors';
-// import mongodb from 'mongodb';
+import 'dotenv/config'
+import ConnectMongoDb from "./connect-mongodb"
+import Routes from "./Routes"
 
 
 const app: Application = express();
 // const client = mongodb.MongoClient;
-const PORT = 8080;
-const HOST = "0.0.0.0";
-// const allowedOrigins = ['http://localhost:4200/'];
-// const options: cors.CorsOptions = {
-//   origin: allowedOrigins
-// };
-// client.connect('mongodb://mongo:27017/newdock', function(err, db) {
-//   if(err) {
-//       console.log('database is not connected')
-//   }
-//   else {
-//       console.log('connected!!')
-//   }
-// });
+declare var process : {
+  env: {
+    PORT : number,
+    HOST: string
+  }
+}
+const PORT: number = process.env.PORT;
+const HOST: string = process.env.HOST;
+const db = "mongodb://localhost:27017/test"
 
+// ConnectMongoDb({ db });
+Routes({ app })
 app.use(cors());
 // app.use(express.json());
 
@@ -94,9 +93,9 @@ const getUserSignedIn = (request: Request, response: Response, next: NextFunctio
 
 
 
-app.get('/user', readUsers);
-app.post('/user/sign-in', getUserSignedIn);
-app.get('/status', readStatuses);
+// app.get('/user', readUsers);
+// app.post('/user/sign-in', getUserSignedIn);
+// app.get('/status', readStatuses);
 app.get("/", (req: Request, res: Response): void => {
   res.send("Hello Typescript with Node.js!")
 });
@@ -104,7 +103,6 @@ app.get("/", (req: Request, res: Response): void => {
 app.listen(PORT, HOST, (): void => {
   console.log(`Server Running here 👉 http://${HOST}:${PORT}`);
 });
-
 
 
 
