@@ -1,16 +1,31 @@
 import express, { Request, Response, Application, NextFunction } from 'express';
 import cors from 'cors';
+// import mongodb from 'mongodb';
+
 
 const app: Application = express();
-
-const PORT = process.env.PORT || 8000;
+// const client = mongodb.MongoClient;
+const PORT = 8080;
+const HOST = "0.0.0.0";
 // const allowedOrigins = ['http://localhost:4200/'];
 // const options: cors.CorsOptions = {
 //   origin: allowedOrigins
 // };
+// client.connect('mongodb://mongo:27017/newdock', function(err, db) {
+//   if(err) {
+//       console.log('database is not connected')
+//   }
+//   else {
+//       console.log('connected!!')
+//   }
+// });
 
 app.use(cors());
 // app.use(express.json());
+
+
+
+
 
 const readUsers = (request: Request, response: Response, next: NextFunction) => {
   let users: User[] = [
@@ -75,6 +90,10 @@ const getUserSignedIn = (request: Request, response: Response, next: NextFunctio
   response.status(200).json({ data: signedInUser });
 };
 
+
+
+
+
 app.get('/user', readUsers);
 app.post('/user/sign-in', getUserSignedIn);
 app.get('/status', readStatuses);
@@ -82,9 +101,12 @@ app.get("/", (req: Request, res: Response): void => {
   res.send("Hello Typescript with Node.js!")
 });
 
-app.listen(PORT, (): void => {
-  console.log(`Server Running here 👉 https://localhost:${PORT}`);
+app.listen(PORT, HOST, (): void => {
+  console.log(`Server Running here 👉 http://${HOST}:${PORT}`);
 });
+
+
+
 
 interface User {
   name: string;
