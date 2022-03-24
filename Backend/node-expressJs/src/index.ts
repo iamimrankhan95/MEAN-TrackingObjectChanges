@@ -15,9 +15,9 @@ declare var process : {
 }
 const PORT: number = process.env.PORT;
 const HOST: string = process.env.HOST;
-const db = "mongodb://localhost:27017/test"
+const db = `mongodb://${HOST}:27017/testApp`
 
-// ConnectMongoDb({ db });
+ConnectMongoDb({ db });
 Routes({ app })
 app.use(cors());
 // app.use(express.json());
