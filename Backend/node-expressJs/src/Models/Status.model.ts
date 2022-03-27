@@ -3,6 +3,7 @@ export interface IStatus  {
     name: string;
     color: string;
 }
+
 const UserSchema: Schema = new Schema({
     name: {
         type: String,
@@ -11,4 +12,5 @@ const UserSchema: Schema = new Schema({
         type: String,
     }
 })
+
 export default mongoose.model<IStatus>("Status", UserSchema)

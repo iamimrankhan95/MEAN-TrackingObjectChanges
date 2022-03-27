@@ -11,7 +11,10 @@ const UserSchema: Schema = new Schema({
         type: String
     },
     status: {
-        type: String,
+        type: {
+            name: String,
+            color: String
+        },
     }
 })
 

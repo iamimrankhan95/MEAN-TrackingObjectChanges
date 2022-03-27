@@ -19,5 +19,6 @@ export default ({ db }: DBInput) => {
   }
 
   connect();
+  
   mongoose.connection.on("disconnected", connect)
 }
