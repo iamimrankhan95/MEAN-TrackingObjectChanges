@@ -12,24 +12,37 @@ async function CreateUser(user: IUser): Promise<IUser> {
 }
 
 async function createUsers(users: IUser[]): Promise<IUser[]> {
-    let result  = await User.insertMany(users);
+    let result = await User.insertMany(users);
     return result;
 }
 
 async function readUsers(): Promise<IUser[]> {
-    let result  = await UserModel.find({});
+    let result = await UserModel.find({});
     console.log(result);
     return result;
 }
 
+async function updateUser(updatedUserInfo: IUser): Promise<IUser | null> {
+    let oldUser: IUser | null = await UserModel.findOne({ name: updatedUserInfo.name });
+
+    if (oldUser === null) {
+        return null;
+    }
+
+    oldUser = updatedUserInfo;
+    let result = await User.updateOne(oldUser);
+    let newUser = result.acknowledged === true ? User.findOne({name:oldUser.name}) :null;
+    return newUser;
+}
+
 async function deleteUsers(): Promise<IUser[]> {
     await User.deleteMany({});
-    let result  = readUsers();
+    let result = readUsers();
     console.log(result);
     return result;
 }
 
 export default {
     createUsers,
-    readUsers, deleteUsers
+    readUsers, deleteUsers,updateUser
 };

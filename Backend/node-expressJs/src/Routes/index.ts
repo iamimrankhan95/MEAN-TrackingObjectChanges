@@ -7,8 +7,8 @@ import { IUser } from "../Models/User.model";
 export default ({ app }: RoutesInput) => {
     app.get("/api/user", readUsers)
     app.post("/api/user", createUser)
-    app.get("/api/delete-user", deleteUser)
-    app.post('/api/user/sign-in', getUserSignedIn);
+    app.delete("/api/user", deleteUser)
+    app.put('/api/user', updateUser);
     app.get('/api/user/init-users', initUserTable);
 }
 
@@ -87,10 +87,15 @@ const initUserTable = async (req: Request, res: Response, next: NextFunction) =>
 
     res.status(200).json({ data: users });
 };
+
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-    
-
     const users = await UserController.deleteUsers()
-
     res.status(200).json({ data: users });
+};
+
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    // console.log(req.body);
+    const user = await UserController.updateUser(req.body);
+    // console.log('user:--> ', user);
+    res.status(200).json({ data: user });
 };

@@ -17,10 +17,14 @@ const PORT: number = process.env.PORT;
 const HOST: string = process.env.HOST;
 const db = `mongodb://${HOST}:27017/testApp`
 
+
+app.use(cors());
+app.use(express.json());
+
+
 ConnectMongoDb({ db });
 Routes({ app })
-app.use(cors());
-// app.use(express.json());
+
 app.get("/", (req: Request, res: Response): void => {
   res.send("Hello Typescript with Node.js!")
 });
