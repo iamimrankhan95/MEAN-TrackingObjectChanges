@@ -19,6 +19,7 @@ declare var process: {
 const PORT: number = process.env.PORT;
 const HOST: string = process.env.HOST;
 const db = `mongodb://${HOST}:27017/testApp`
+// const db = `mongodb://databaseMongo:27017/testApp`
 // const wss = new WebSocketServer({ port: process.env.PORT, path:"/websockets/" });
 
  

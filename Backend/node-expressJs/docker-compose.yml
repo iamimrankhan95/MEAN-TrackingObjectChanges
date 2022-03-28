@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  expressjs:
+    image: expressjs
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8080:8080
+    depends_on:
+      - databaseMongo
+
+  databaseMongo: # name of the third service
+    image: mongo # specify image to build container from
+    ports:
+      - "27017:27017" # specify port forewarding
