@@ -5,9 +5,9 @@ import express, { Request, Response, Application, NextFunction } from 'express';
 import { IUser } from "../Models/User.model";
 
 export default ({ app }: RoutesInput) => {
-    app.get("/api/user", readUsers)
-    app.post("/api/user", createUser)
-    app.delete("/api/user", deleteUser)
+    app.get("/api/user", readUsers);
+    app.post("/api/user", createUser);
+    app.delete("/api/user", deleteUser);
     app.put('/api/user', updateUser);
     app.post('/api/user/sign-in', getUserSignedIn);
     app.put('/api/user/sign-out', getUserSignedOut);
@@ -55,7 +55,8 @@ const getUserSignedIn = async (request: Request, response: Response, next: NextF
     if (signingInUser === undefined) {
         response.status(401).json({ data: "Please sign in with registered name" });
     } else {
-        signingInUser.status = StatusList.ACTIVE;
+        signingInUser.status.name = StatusList.ACTIVE.name;
+        signingInUser.status.color = StatusList.ACTIVE.color;
         const signedInUser = await UserController.updateUser(signingInUser);
         response.status(200).json({ data: signedInUser });
     }
@@ -90,12 +91,39 @@ const initUserTable = async (req: Request, res: Response, next: NextFunction) =>
                 "name": "BUSY",
                 "color": "#f20707"
             },
+        },        {
+            name: 'Manna',
+            status: {
+                "name": "ACTIVE",
+                "color": "#4287f5"
+            },
+        },
+        {
+            name: 'Ishtiaq',
+            status: {
+                "name": "OFFLINE",
+                "color": "#c4c4c4"
+            },
+        },
+        {
+            name: 'Sadman',
+            status: {
+                "name": "BUSY",
+                "color": "#f20707"
+            },
+        },
+        {
+            name: 'Imran',
+            status: {
+                "name": "BUSY",
+                "color": "#f20707"
+            },
         },
     ];
 
-    const user = await UserController.createUsers(users)
+    const createdUsers = await UserController.createUsers(users)
 
-    res.status(200).json({ data: users });
+    res.status(200).json({ data: createdUsers });
 };
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {

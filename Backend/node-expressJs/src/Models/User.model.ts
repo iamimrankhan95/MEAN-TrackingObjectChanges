@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose"
-import { IStatus } from "./Status.model";
-
+import StatusSchema, { IStatus } from "./Status.model";
+ 
 export interface IUser {
     name: string;
     status: IStatus;
@@ -11,10 +11,9 @@ const UserSchema: Schema = new Schema({
         type: String
     },
     status: {
-        type: {
-            name: String,
-            color: String
-        },
+        _id: false,
+        name: String,
+        color: String
     }
 })
 

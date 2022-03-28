@@ -28,21 +28,22 @@ async function updateUser(updatedUserInfo: IUser): Promise<IUser | null> {
     if (oldUser === null) {
         return null;
     }
-
-    oldUser = updatedUserInfo;
-    let result = await User.updateOne(oldUser);
-    let newUser = result.acknowledged === true ? User.findOne({name:oldUser.name}) :null;
+    console.log('oldUser:--> ', oldUser);
+    oldUser.status = updatedUserInfo.status;
+    console.log('oldUser:--> ', oldUser);
+    let result = await User.updateOne({name:oldUser.name},{status: oldUser.status});
+    let newUser = result.acknowledged === true ? User.findOne({ name: oldUser.name }) : null;
     return newUser;
 }
 
 async function deleteUsers(): Promise<IUser[]> {
     await User.deleteMany({});
     let result = readUsers();
-    console.log(result);
+    // console.log(result);
     return result;
 }
 
 export default {
     createUsers,
-    readUsers, deleteUsers,updateUser
+    readUsers, deleteUsers, updateUser
 };
