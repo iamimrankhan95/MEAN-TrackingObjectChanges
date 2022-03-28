@@ -60,13 +60,15 @@ const getUserSignedIn = async (request: Request, response: Response, next: NextF
         signingInUser.status.name = StatusList.ACTIVE.name;
         signingInUser.status.color = StatusList.ACTIVE.color;
         const signedInUser = await UserController.updateUser(signingInUser);
+        wsManager.publish(JSON.stringify(signedInUser),false);
         response.status(200).json({ data: signedInUser });
     }
 };
 
 const getUserSignedOut = async (request: Request, response: Response, next: NextFunction) => {
     let signingOutUser: IUser = request.body;
-    const signedInUser = await UserController.updateUser(signingOutUser);
+    const signedOutUser = await UserController.updateUser(signingOutUser);
+    wsManager.publish(JSON.stringify(signedOutUser),false);
     response.status(200).json({ data: "Signed out successfully" });
 
 };
