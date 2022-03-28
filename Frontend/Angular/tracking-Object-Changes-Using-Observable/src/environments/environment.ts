@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   baseUrlNode: 'http://localhost:8080/api/',
+  baseUrlNodeWs: 'ws://localhost:8080/websockets',
 };
 
 /*

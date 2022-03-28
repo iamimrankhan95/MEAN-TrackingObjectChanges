@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.dto';
 import { StatusList } from 'src/app/shared/models/user.entity';
+import { WebsocketService } from 'src/app/shared/services/websocket.service';
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
@@ -18,9 +19,13 @@ export class SignInComponent implements OnInit {
     remember: [false],
   });
 
-  signedInUser: User |undefined;
+  signedInUser: User | undefined;
 
-  constructor(private authenticationService: AuthenticationService, private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private fb: FormBuilder, private router: Router,
+    private websocketService: WebsocketService
+  ) { }
 
   ngOnInit(): void {
     this.signInForm.controls["userName"]
@@ -37,8 +42,8 @@ export class SignInComponent implements OnInit {
   submitSignInForm() {
     console.log(this.signInForm.value)
     let signingInUser: User = {
-      name:this.signInForm.value.userName,
-      status:StatusList.ACTIVE
+      name: this.signInForm.value.userName,
+      status: StatusList.ACTIVE
     }
     this.authenticationService.getUserSignedIn(signingInUser).subscribe({
       next: (serverResponse) => {
@@ -46,6 +51,8 @@ export class SignInComponent implements OnInit {
         this.signedInUser = serverResponse.data;
         this.authenticationService.signedInUser = this.signedInUser;
         this.router.navigateByUrl("user");
+        this.websocketService.openWebSocket();
+        this.websocketService.sendMessage(this.signedInUser);
       },
       error: (error) => {
         alert(error.error.data);

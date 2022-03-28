@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Status, User } from 'src/app/shared/models/user.dto';
 import { StatusList } from 'src/app/shared/models/user.entity';
+import { WebsocketService } from 'src/app/shared/services/websocket.service';
 import { AuthenticationService } from '../../authentication/authentication.service';
 import { UserService } from '../user.service';
 
@@ -25,7 +26,12 @@ export class UserStatusDropdownComponent implements OnInit {
     "name": "BUSY",
     "color": "#f20707"
   }];
-  constructor(private userService: UserService, private authenticationService: AuthenticationService, private router: Router) {
+  constructor(
+    private userService: UserService,
+     private authenticationService: AuthenticationService, 
+     private router: Router,
+     private websocketService: WebsocketService
+     ) {
   }
 
   ngOnInit(): void {
@@ -68,12 +74,13 @@ export class UserStatusDropdownComponent implements OnInit {
   changeStatus() {
     this.authenticationService.updateUser(this.signedInUser).subscribe({
       next: (res) => {
+        this.websocketService.sendMessage(this.signedInUser);
         alert("Status updated successfully");
       },
       error: (err) => {
         console.log('HTTP Error', err);
       },
-      complete: () => console.info('complete'),
+      // complete: () => console.info('complete'),
     })
   }
 
@@ -82,12 +89,14 @@ export class UserStatusDropdownComponent implements OnInit {
     this.authenticationService.getUserSignedOut(this.signedInUser).subscribe(
       {
         next: (res) => {
+          this.websocketService.sendMessage(this.signedInUser);
+          this.websocketService.closeWebSocket();
           this.router.navigateByUrl('authentication');
         },
         error: (err) => {
           console.log('HTTP Error', err);
         },
-        complete: () => console.info('complete'),
+        // complete: () => console.info('complete'),
       }
     );
   }

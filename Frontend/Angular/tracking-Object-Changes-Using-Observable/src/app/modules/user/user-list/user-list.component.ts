@@ -14,6 +14,7 @@ export class UserListComponent implements OnInit {
       next: (serverResponse) => {
         console.log(serverResponse)
         this.friends = serverResponse.data;
+        this.userService.userFriends = this.friends;
       },
       error: (error) =>{
         this.friends = [];

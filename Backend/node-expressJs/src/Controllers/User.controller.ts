@@ -23,16 +23,8 @@ async function readUsers(): Promise<IUser[]> {
 }
 
 async function updateUser(updatedUserInfo: IUser): Promise<IUser | null> {
-    let oldUser: IUser | null = await UserModel.findOne({ name: updatedUserInfo.name });
-
-    if (oldUser === null) {
-        return null;
-    }
-    console.log('oldUser:--> ', oldUser);
-    oldUser.status = updatedUserInfo.status;
-    console.log('oldUser:--> ', oldUser);
-    let result = await User.updateOne({name:oldUser.name},{status: oldUser.status});
-    let newUser = result.acknowledged === true ? User.findOne({ name: oldUser.name }) : null;
+    let result = await User.updateOne({name:updatedUserInfo.name},{status: updatedUserInfo.status});
+    let newUser = result.acknowledged === true ? User.findOne({ name: updatedUserInfo.name }) : null;
     return newUser;
 }
 

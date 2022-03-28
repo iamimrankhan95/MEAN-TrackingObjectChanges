@@ -3,6 +3,7 @@ import UserController from "../Controllers/User.controller"
 import { RoutesInput } from "../Types/types"
 import express, { Request, Response, Application, NextFunction } from 'express';
 import { IUser } from "../Models/User.model";
+import wsManager from "../websocket"
 
 export default ({ app }: RoutesInput) => {
     app.get("/api/user", readUsers);
@@ -12,6 +13,7 @@ export default ({ app }: RoutesInput) => {
     app.post('/api/user/sign-in', getUserSignedIn);
     app.put('/api/user/sign-out', getUserSignedOut);
     app.get('/api/user/init-users', initUserTable);
+    app.get('/api/user/:name', getUserFriends);
 }
 
 const readUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -50,7 +52,7 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
 
 const getUserSignedIn = async (request: Request, response: Response, next: NextFunction) => {
     let users: IUser[] = await UserController.readUsers();
-    let signingInUser: IUser | undefined = users.find(q => q.name === request.body.name);
+    let signingInUser: IUser | undefined = users.find(q => q.name.toLowerCase() === request.body.name.toLowerCase());
 
     if (signingInUser === undefined) {
         response.status(401).json({ data: "Please sign in with registered name" });
@@ -134,8 +136,15 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     // console.log(req.body);
     const user = await UserController.updateUser(req.body);
+    wsManager.publish(JSON.stringify(user),false);
     // console.log('user:--> ', user);
-    res.status(200).json({ data: user });
+    // res.status(200).json({ data: user });
+};
+
+const getUserFriends = async (req: Request, res: Response, next: NextFunction) => {
+    // console.log(req.body);
+    const users = await UserController.readUsers();
+    res.status(200).json({ data: users.filter(q=>q.name !== req.params.name)});
 };
 
 export const StatusList = {
