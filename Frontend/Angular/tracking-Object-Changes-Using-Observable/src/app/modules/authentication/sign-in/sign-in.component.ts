@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.dto';
+import { StatusList } from 'src/app/shared/models/user.entity';
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class SignInComponent implements OnInit {
     remember: [false],
   });
 
-  signedInUser!: User;
+  signedInUser: User |undefined;
 
   constructor(private authenticationService: AuthenticationService, private fb: FormBuilder, private router: Router) { }
 
@@ -35,7 +36,11 @@ export class SignInComponent implements OnInit {
 
   submitSignInForm() {
     console.log(this.signInForm.value)
-    this.authenticationService.getUserSignedIn(this.signInForm.value).subscribe({
+    let signingInUser: User = {
+      name:this.signInForm.value.userName,
+      status:StatusList.ACTIVE
+    }
+    this.authenticationService.getUserSignedIn(signingInUser).subscribe({
       next: (serverResponse) => {
         console.log(serverResponse)
         this.signedInUser = serverResponse.data;
@@ -43,7 +48,9 @@ export class SignInComponent implements OnInit {
         this.router.navigateByUrl("user");
       },
       error: (error) => {
-        this.signedInUser;
+        alert(error.error.data);
+        console.log('error:--> ', error);
+        this.signedInUser = undefined;
       }
     });
   }

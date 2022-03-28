@@ -18,7 +18,7 @@ async function createUsers(users: IUser[]): Promise<IUser[]> {
 
 async function readUsers(): Promise<IUser[]> {
     let result = await UserModel.find({});
-    console.log(result);
+    // console.log(result);
     return result;
 }
 

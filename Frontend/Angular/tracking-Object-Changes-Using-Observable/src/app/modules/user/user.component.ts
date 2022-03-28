@@ -11,7 +11,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 })
 export class UserComponent implements OnInit {
 
-  signedInUser!: User;
+  signedInUser: User;
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router,) { 

@@ -9,6 +9,8 @@ export default ({ app }: RoutesInput) => {
     app.post("/api/user", createUser)
     app.delete("/api/user", deleteUser)
     app.put('/api/user', updateUser);
+    app.post('/api/user/sign-in', getUserSignedIn);
+    app.put('/api/user/sign-out', getUserSignedOut);
     app.get('/api/user/init-users', initUserTable);
 }
 
@@ -46,16 +48,24 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({ data: users });
 };
 
-const getUserSignedIn = (request: Request, response: Response, next: NextFunction) => {
-    let signedInUser: IUser = {
-        name: 'Faysal',
-        status: {
-            "name": "ACTIVE",
-            "color": "#4287f5"
-        },
-    };
+const getUserSignedIn = async (request: Request, response: Response, next: NextFunction) => {
+    let users: IUser[] = await UserController.readUsers();
+    let signingInUser: IUser | undefined = users.find(q => q.name === request.body.name);
 
-    response.status(200).json({ data: signedInUser });
+    if (signingInUser === undefined) {
+        response.status(401).json({ data: "Please sign in with registered name" });
+    } else {
+        signingInUser.status = StatusList.ACTIVE;
+        const signedInUser = await UserController.updateUser(signingInUser);
+        response.status(200).json({ data: signedInUser });
+    }
+};
+
+const getUserSignedOut = async (request: Request, response: Response, next: NextFunction) => {
+    let signingOutUser: IUser = request.body;
+    const signedInUser = await UserController.updateUser(signingOutUser);
+    response.status(200).json({ data: "Signed out successfully" });
+
 };
 
 const initUserTable = async (req: Request, res: Response, next: NextFunction) => {
@@ -99,3 +109,18 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     // console.log('user:--> ', user);
     res.status(200).json({ data: user });
 };
+
+export const StatusList = {
+    ACTIVE: {
+        "name": "ACTIVE",
+        "color": "#4287f5"
+    },
+    OFFLINE: {
+        "name": "OFFLINE",
+        "color": "#c4c4c4"
+    },
+    BUSY: {
+        "name": "BUSY",
+        "color": "#f20707"
+    },
+}

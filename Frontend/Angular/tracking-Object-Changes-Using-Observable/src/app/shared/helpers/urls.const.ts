@@ -4,6 +4,8 @@ export const urls = {
         create: 'create-permission',
         readUsers: environment.baseUrlNode+ 'user/',
         signIn: environment.baseUrlNode+ 'user/sign-in',
+        signOut: environment.baseUrlNode+ 'user/sign-out',
+        update: environment.baseUrlNode+ 'user/',
         delete: 'delete-permission',
     },
     status: {

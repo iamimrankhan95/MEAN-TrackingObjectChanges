@@ -12,7 +12,15 @@ export class AuthenticationService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getUserSignedIn(userCred:any): Observable<{ data: User }> {
-    return this.httpClient.post<{ data: User }>(`${urls.user.signIn}`,userCred)
+  getUserSignedIn(user:User): Observable<{ data: User }> {
+    return this.httpClient.post<{ data: User }>(`${urls.user.signIn}`,user)
+  }
+
+  updateUser(userCred:any): Observable<{ data: User }> {
+    return this.httpClient.put<{ data: User }>(`${urls.user.update}`,userCred)
+  }
+
+  getUserSignedOut(user:User): Observable<{ data: User }> {
+    return this.httpClient.put<{ data: User }>(`${urls.user.signOut}`,user)
   }
 }
