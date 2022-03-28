@@ -66,14 +66,15 @@ export class UserStatusDropdownComponent implements OnInit {
   }
 
   changeStatus() {
-    // console.log(this.activeStatus);
-    // this.activeStatus = this.user.status;
-    // let params: Map<string, any> = new Map();
-    // params.set('user', this.user);
-    // console.log('status changed to ' + this.activeStatus);
-    // this.userService.changeActiveStatusByUserId(params).subscribe((data) => {
-    //   console.log(data);
-    // });
+    this.authenticationService.updateUser(this.signedInUser).subscribe({
+      next: (res) => {
+        alert("Status updated successfully");
+      },
+      error: (err) => {
+        console.log('HTTP Error', err);
+      },
+      complete: () => console.info('complete'),
+    })
   }
 
   onSignOut() {
