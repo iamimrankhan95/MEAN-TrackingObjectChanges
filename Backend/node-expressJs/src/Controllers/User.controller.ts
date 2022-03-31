@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+import WebSocketManager from '../managers/websocket.manager';
 import { IUser } from '../Models/User.model';
 import UserService from '../services/user.service';
-import wsManager from "../websocket"
 module UserController {
     export const readUsers = async (req: Request, res: Response, next: NextFunction) => {
         let users: IUser[] = await UserService.readUsers();
@@ -47,7 +47,7 @@ module UserController {
             signingInUser.status.name = StatusList.ACTIVE.name;
             signingInUser.status.color = StatusList.ACTIVE.color;
             const signedInUser = await UserService.updateUser(signingInUser);
-            wsManager.publish(JSON.stringify(signedInUser), false);
+            WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(signedInUser), false);
             response.status(200).json({ data: signedInUser });
         }
     };
@@ -55,7 +55,7 @@ module UserController {
     export const getUserSignedOut = async (request: Request, response: Response, next: NextFunction) => {
         let signingOutUser: IUser = request.body;
         const signedOutUser = await UserService.updateUser(signingOutUser);
-        wsManager.publish(JSON.stringify(signedOutUser), false);
+        WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(signedOutUser), false);
         response.status(200).json({ data: "Signed out successfully" });
 
     };
@@ -125,7 +125,7 @@ module UserController {
     export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
         // console.log(req.body);
         const user = await UserService.updateUser(req.body);
-        wsManager.publish(JSON.stringify(user), false);
+        WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(user), false);
         // console.log('user:--> ', user);
         // res.status(200).json({ data: user });
     };
