@@ -1,36 +1,12 @@
-// import { IStatus } from '../Models/Status.model';
-// import UserModel from '../Models/User.model';
-// import User, { IUser } from '../Models/User.model';
+import express, { Request, Response } from 'express';
+var statusRouter = express.Router();
 
-// async function CreateUser(user: IUser): Promise<IUser> {
-//     return User.create(user)
-//         .then((data: IUser) => {
-//             return data;
-//         })
-//         .catch((error: Error) => {
-//             throw error;
-//         });
-// }
 
-// async function createStatuses(statuses: IStatus[]): Promise<IUser[]> {
-//     let result  = await User.insertMany(users);
-//     return result;
-// }
+statusRouter.get('/', (req: Request, res: Response): void => {
+    res.send("status")
+  });
 
-// async function readUsers(): Promise<IUser[]> {
-//     let result  = await UserModel.find({});
-//     console.log(result);
-//     return result;
-// }
 
-// async function deleteUsers(): Promise<IUser[]> {
-//     await User.deleteMany({});
-//     let result  = readUsers();
-//     console.log(result);
-//     return result;
-// }
 
-// export default {
-//     createUsers,
-//     readUsers, deleteUsers
-// };
+//   export default statusRouter; === (module.exports = statusRouter);
+  export default statusRouter;
