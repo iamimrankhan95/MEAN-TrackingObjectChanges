@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export class DbManager {
+class DbManager {
     connString: string = "";
 
     constructor(connString:string) {

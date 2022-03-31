@@ -37,29 +37,6 @@ module UserController {
         res.status(200).json({ data: users });
     };
 
-    export const getUserSignedIn = async (request: Request, response: Response, next: NextFunction) => {
-        let users: IUser[] = await UserService.readUsers();
-        let signingInUser: IUser | undefined = users.find(q => q.name.toLowerCase() === request.body.name.toLowerCase());
-
-        if (signingInUser === undefined) {
-            response.status(401).json({ data: "Please sign in with registered name" });
-        } else {
-            signingInUser.status.name = StatusList.ACTIVE.name;
-            signingInUser.status.color = StatusList.ACTIVE.color;
-            const signedInUser = await UserService.updateUser(signingInUser);
-            WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(signedInUser), false);
-            response.status(200).json({ data: signedInUser });
-        }
-    };
-
-    export const getUserSignedOut = async (request: Request, response: Response, next: NextFunction) => {
-        let signingOutUser: IUser = request.body;
-        const signedOutUser = await UserService.updateUser(signingOutUser);
-        WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(signedOutUser), false);
-        response.status(200).json({ data: "Signed out successfully" });
-
-    };
-
     export const initUserTable = async (req: Request, res: Response, next: NextFunction) => {
         let users: IUser[] = [
             {
