@@ -20,9 +20,19 @@ class UserRepo {
         return result;
     }
 
-    public async updateUserStatus(updatedUserInfo: IUser,status:any): Promise<IUser | null> {
-        let result = await UserModel.updateOne({ name: updatedUserInfo.name }, { status: status });
-        let newUser = result.acknowledged === true ? await UserModel.findOne({ name: updatedUserInfo.name }) : null;
+    async createUsers(users: IUser[]): Promise<IUser[]> {
+        let result = await UserModel.insertMany(users);
+        return result;
+    }
+    async deleteUser(): Promise<IUser[]> {
+        await UserModel.deleteMany({});
+        let result = await this.readUsers();
+        return result;
+    }
+
+    public async updateUserStatus(name: string,status:any): Promise<IUser | null> {
+        let result = await UserModel.updateOne({ name: name }, { status: status });
+        let newUser = result.acknowledged === true ? await UserModel.findOne({ name: name }) : null;
         return newUser;
     }
 }

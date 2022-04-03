@@ -1,17 +1,24 @@
+import { StatusList } from "../Controllers/User.controller";
+import { IUser } from "../Models/User.model";
+import UserRepo from "../Repo/user.repo";
 
 class SignOutHandler {
-    connString: string = "";
-
-    constructor(connString: string) {
-        this.connString = connString;
+    static isSignIn: boolean;
+    static signInHandler: SignOutHandler;
+    constructor() {
     }
 
-    signOutUser(name: string) {
-
+    public static getHandlerInstance() {
+        if (!this.signInHandler) {
+            this.signInHandler = new SignOutHandler();
+            return this.signInHandler;
+        }
+        return this.signInHandler;
     }
 
-    disconnect() {
-
+    public async signOutUser(name: string): Promise<IUser | null> {
+        const signedOutUser = await UserRepo.getRepoInstance().updateUserStatus(name, StatusList.OFFLINE);
+        return signedOutUser;
     }
 }
 

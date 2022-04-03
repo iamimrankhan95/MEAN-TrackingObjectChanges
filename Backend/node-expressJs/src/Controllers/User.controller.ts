@@ -3,113 +3,108 @@ import WebSocketManager from '../managers/websocket.manager';
 import { IUser } from '../Models/User.model';
 import UserService from '../services/user.service';
 module UserController {
-    export const readUsers = async (req: Request, res: Response, next: NextFunction) => {
-        let users: IUser[] = await UserService.readUsers();
-
+    export const readUser = async (req: Request, res: Response, next: NextFunction) => {
+        let users: IUser[] = await UserService.getServiceInstance().readUser();
         res.status(200).json({ data: users });
     };
 
-    export const createUser = (req: Request, res: Response, next: NextFunction) => {
-        let users: IUser[] = [
-            {
-                name: 'Faysal',
-                status: {
-                    "name": "ACTIVE",
-                    "color": "#4287f5"
-                },
-            },
-            {
-                name: 'Akhtar',
-                status: {
-                    "name": "OFFLINE",
-                    "color": "#c4c4c4"
-                },
-            },
-            {
-                name: 'Jannat',
-                status: {
-                    "name": "BUSY",
-                    "color": "#f20707"
-                },
-            },
-        ];
+    // export const createUser = (req: Request, res: Response, next: NextFunction) => {
+    //     let users: IUser[] = [
+    //         {
+    //             name: 'Faysal',
+    //             status: {
+    //                 "name": "ACTIVE",
+    //                 "color": "#4287f5"
+    //             },
+    //         },
+    //         {
+    //             name: 'Akhtar',
+    //             status: {
+    //                 "name": "OFFLINE",
+    //                 "color": "#c4c4c4"
+    //             },
+    //         },
+    //         {
+    //             name: 'Jannat',
+    //             status: {
+    //                 "name": "BUSY",
+    //                 "color": "#f20707"
+    //             },
+    //         },
+    //     ];
 
-        res.status(200).json({ data: users });
-    };
+    //     res.status(200).json({ data: users });
+    // };
 
     export const initUserTable = async (req: Request, res: Response, next: NextFunction) => {
         let users: IUser[] = [
             {
-                name: 'Faysal',
-                status: {
-                    "name": "ACTIVE",
-                    "color": "#4287f5"
-                },
-            },
-            {
-                name: 'Akhtar',
+                name: 'faysal',
                 status: {
                     "name": "OFFLINE",
                     "color": "#c4c4c4"
                 },
             },
             {
-                name: 'Jannat',
+                name: 'akhtar',
                 status: {
-                    "name": "BUSY",
-                    "color": "#f20707"
+                    "name": "OFFLINE",
+                    "color": "#c4c4c4"
+                },
+            },
+            {
+                name: 'jannat',
+                status: {
+                    "name": "OFFLINE",
+                    "color": "#c4c4c4"
                 },
             }, {
-                name: 'Manna',
-                status: {
-                    "name": "ACTIVE",
-                    "color": "#4287f5"
-                },
-            },
-            {
-                name: 'Ishtiaq',
+                name: 'manna',
                 status: {
                     "name": "OFFLINE",
                     "color": "#c4c4c4"
                 },
             },
             {
-                name: 'Sadman',
+                name: 'ishtiaq',
                 status: {
-                    "name": "BUSY",
-                    "color": "#f20707"
+                    "name": "OFFLINE",
+                    "color": "#c4c4c4"
                 },
             },
             {
-                name: 'Imran',
+                name: 'sadman',
                 status: {
-                    "name": "BUSY",
-                    "color": "#f20707"
+                    "name": "OFFLINE",
+                    "color": "#c4c4c4"
+                },
+            },
+            {
+                name: 'imran',
+                status: {
+                    "name": "OFFLINE",
+                    "color": "#c4c4c4"
                 },
             },
         ];
 
-        const createdUsers = await UserService.createUsers(users)
+        const createdUsers = await UserService.getServiceInstance().createUser(users)
 
         res.status(200).json({ data: createdUsers });
     };
 
     export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-        const users = await UserService.deleteUsers()
+        const users = await UserService.getServiceInstance().deleteUser();
         res.status(200).json({ data: users });
     };
 
     export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-        // console.log(req.body);
-        const user = await UserService.updateUser(req.body);
+        const user = await UserService.getServiceInstance().updateUserStatus(req.body.name, req.body.status);
         WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(user), false);
-        // console.log('user:--> ', user);
-        // res.status(200).json({ data: user });
     };
 
     export const getUserFriends = async (req: Request, res: Response, next: NextFunction) => {
-        // console.log(req.body);
-        const users = await UserService.readUsers();
+        const users = await UserService.getServiceInstance().readUser();
         res.status(200).json({ data: users.filter(q => q.name !== req.params.name) });
     };
 }

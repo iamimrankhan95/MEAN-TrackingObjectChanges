@@ -16,8 +16,8 @@ class UserStatusHandler {
         return this.userStatusHandler;
     }
 
-    public async updateUserStatus(updatedUser:IUser,Status:any): Promise<IUser|null> {
-        let result = await UserRepo.getRepoInstance().updateUserStatus(updatedUser,Status);
+    public async updateUserStatus(name:string,Status:any): Promise<IUser|null> {
+        let result = await UserRepo.getRepoInstance().updateUserStatus(name,Status);
         return result;
     }
 }
