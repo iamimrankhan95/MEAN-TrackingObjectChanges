@@ -6,6 +6,9 @@ import { IUser } from "../Models/User.model";
 
 class AuthService {
     static authService: AuthService;
+    signInHandler: SignInHandler = SignInHandler.getHandlerInstance()
+    userStatusHandler: UserStatusHandler = UserStatusHandler.getHandlerInstance();
+    signOutHandler: SignOutHandler = SignOutHandler.getHandlerInstance();
     connString: string = "";
 
     private constructor() {
@@ -14,23 +17,22 @@ class AuthService {
     public static getServiceInstance() {
         if (!this.authService) {
             this.authService = new AuthService();
-            return this.authService;
         }
         return this.authService;
     }
 
     public async signInUser(name: string): Promise<IUser | null> {
-        let signedInUser: IUser | undefined = await SignInHandler.getHandlerInstance().signInUser(name);
+        let signedInUser: IUser | undefined = await this.signInHandler.signInUser(name);
         let updatedUser: IUser | null = null;
 
         if (signedInUser !== undefined) {
-            updatedUser = await UserStatusHandler.getHandlerInstance().updateUserStatus(name, StatusList.ACTIVE);
+            updatedUser = await this.userStatusHandler.updateUserStatus(name, StatusList.ACTIVE);
         }
         return updatedUser;
     }
 
     public async signOutUser(name: string): Promise<IUser | null> {
-        let signedInUser: IUser | null = await SignOutHandler.getHandlerInstance().signOutUser(name);
+        let signedInUser: IUser | null = await this.signOutHandler.signOutUser(name);
         return signedInUser;
     }
 }

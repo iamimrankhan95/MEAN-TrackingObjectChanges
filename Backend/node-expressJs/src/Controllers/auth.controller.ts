@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import WebSocketManager from '../managers/websocket.manager';
 import { IUser } from '../Models/User.model';
 import AuthService from '../services/auth.service';
 
@@ -10,7 +9,6 @@ module AuthController {
         if (signedInUser === null) {
             response.status(401).json({ data: "Please sign in with registered name" });
         } else {
-            WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(signedInUser), false);
             response.status(200).json({ data: signedInUser });
         }
     };
@@ -20,7 +18,6 @@ module AuthController {
         if (signedOutUser === null) {
             response.status(401).json({ data: "Please sign in with registered name" });
         } else {
-            WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(signedOutUser), false);
             response.status(200).json({ data: signedOutUser });
         }
 

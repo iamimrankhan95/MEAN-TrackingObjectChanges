@@ -1,9 +1,13 @@
 export interface User {
-    name: string;
-    status: Status;
+  name: string;
+  status: Status;
 }
 
 export interface Status {
-    name: string;
-    color: string;
-  }
+  name: string;
+  color: string;
+}
+export interface WebSocketMsg {
+  message: User;
+  type: string;
+}

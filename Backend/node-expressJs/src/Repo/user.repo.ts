@@ -1,9 +1,10 @@
+import UserStatusListener from "../listeners/userStatus.listener";
 import UserModel, { IUser } from "../Models/User.model";
 
 class UserRepo {
     static userRepo: UserRepo;
     connString: string = "";
-
+    userStatusListener: UserStatusListener = UserStatusListener.getHandlerInstance();
     private constructor() {
     }
 
@@ -30,11 +31,17 @@ class UserRepo {
         return result;
     }
 
-    public async updateUserStatus(name: string,status:any): Promise<IUser | null> {
+    public async updateUserStatus(name: string, status: any): Promise<IUser | null> {
         let result = await UserModel.updateOne({ name: name }, { status: status });
         let newUser = result.acknowledged === true ? await UserModel.findOne({ name: name }) : null;
+        
+        if (newUser !== null) {
+            this.userStatusListener.notify(JSON.stringify(newUser), false);
+        }
         return newUser;
     }
+
+    
 }
 
 export default UserRepo;

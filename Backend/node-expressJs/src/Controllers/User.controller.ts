@@ -100,7 +100,7 @@ module UserController {
 
     export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
         const user = await UserService.getServiceInstance().updateUserStatus(req.body.name, req.body.status);
-        WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(user), false);
+        // WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(user), false);
     };
 
     export const getUserFriends = async (req: Request, res: Response, next: NextFunction) => {

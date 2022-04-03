@@ -3,6 +3,7 @@ import UserRepo from "../Repo/user.repo";
 
 class UserStatusHandler {
     static userStatusHandler: UserStatusHandler;
+    userRepo : UserRepo = UserRepo.getRepoInstance();
     connString: string = "";
 
     private constructor() {
@@ -11,13 +12,12 @@ class UserStatusHandler {
     public static getHandlerInstance() {
         if (!this.userStatusHandler) {
             this.userStatusHandler = new UserStatusHandler();
-            return this.userStatusHandler;
         }
         return this.userStatusHandler;
     }
 
     public async updateUserStatus(name:string,Status:any): Promise<IUser|null> {
-        let result = await UserRepo.getRepoInstance().updateUserStatus(name,Status);
+        let result = await this.userRepo.updateUserStatus(name,Status);
         return result;
     }
 }
