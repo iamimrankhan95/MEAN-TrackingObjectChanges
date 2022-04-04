@@ -11,7 +11,6 @@ class SignOutHandler {
     public static getHandlerInstance() {
         if (!this.signInHandler) {
             this.signInHandler = new SignOutHandler();
-            return this.signInHandler;
         }
         return this.signInHandler;
     }

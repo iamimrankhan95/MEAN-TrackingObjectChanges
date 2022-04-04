@@ -27,10 +27,22 @@ const httpTrigger: AzureFunction = async function (
                     };
                 }
                 break;
-            case "POST":
+            case "POST": 
+                context.log(req?.body);
                 if (req?.body?.document) {
-                    context.log(req?.body);
-                    const insertOneResponse = await db.addUser(req?.body?.document);
+                    const insertOneResponse = await db.updateUserByName(req?.body?.document);
+                    response = {
+                        documentResponse: insertOneResponse,
+                    };
+                } else {
+                    throw Error("No document found");
+                }
+
+                break;
+            case "PUT": 
+                context.log(req?.body);
+                if (req?.body?.document) {
+                    const insertOneResponse = await db.updateUserByName(req?.body?.document);
                     response = {
                         documentResponse: insertOneResponse,
                     };

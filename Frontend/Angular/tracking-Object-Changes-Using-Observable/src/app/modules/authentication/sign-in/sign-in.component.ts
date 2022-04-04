@@ -52,10 +52,10 @@ export class SignInComponent implements OnInit {
         this.authenticationService.signedInUser = this.signedInUser;
         this.router.navigateByUrl("user");
         this.websocketService.openWebSocket();
-        this.websocketService.sendMessage({
-          message: this.signedInUser,
-          type: "entry",
-        });
+        // this.websocketService.sendMessage({
+        //   message: this.signedInUser,
+        //   type: "entry",
+        // });
       },
       error: (error) => {
         alert(error.error.data);

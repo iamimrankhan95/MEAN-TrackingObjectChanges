@@ -49,6 +49,10 @@ export const findUserById = async (id) => {
     return await UserModel.findById(id);
 };
 
+export const findUserByName = async (name) => {
+    return await UserModel.findOne({ name: name });
+};
+
 // export const findItems = async (query = {}) => {
 //     return await CategoryModel.find({});
 // };
@@ -59,3 +63,11 @@ export const findUsers = async (query = {}) => {
 // export const deleteItemById = async (id) => {
 //     return await CategoryModel.findByIdAndDelete(id);
 // };
+export const updateUserByName = async (user) => {
+    let result = await UserModel.updateOne({ name: user.name }, { status: user.status });
+    let updatedUser = null;
+    if (result.acknowledged === true) {
+        updatedUser = await findUserByName(user.name);
+    }
+    return updatedUser;
+};
