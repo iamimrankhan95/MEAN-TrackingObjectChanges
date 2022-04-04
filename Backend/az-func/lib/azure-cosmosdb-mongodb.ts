@@ -2,12 +2,24 @@ import { Schema, model, connect } from "mongoose";
 
 let db = null;
 
-const CategorySchema = new Schema(
-    { categoryName: String },
-    { timestamps: true }
-);
+// const CategorySchema = new Schema(
+//     { categoryName: String },
+//     { timestamps: true }
+// );
 
-const CategoryModel = model("Category", CategorySchema, "Bookstore");
+const UserSchema = new Schema({
+    name: {
+        type: String
+    },
+    status: {
+        _id: false,
+        name: String,
+        color: String
+    }
+})
+
+// const CategoryModel = model("Category", CategorySchema, "Bookstore");
+const UserModel = model("User", UserSchema);
 
 export const init = async () => {
     if (!db) {
@@ -15,21 +27,35 @@ export const init = async () => {
     }
 };
 
-export const addItem = async (doc) => {
-    const modelToInsert = new CategoryModel();
-    modelToInsert["categoryName"] = doc.name;
+// export const addItem = async (doc) => {
+//     const modelToInsert = new CategoryModel();
+//     modelToInsert["categoryName"] = doc.name;
+
+//     return await modelToInsert.save();
+// };
+export const addUser = async (doc) => {
+    console.log('doc:--> ', doc);
+    const modelToInsert = new UserModel();
+    modelToInsert["name"] = doc.name;
+    modelToInsert["status"] = doc.status;
 
     return await modelToInsert.save();
 };
 
-export const findItemById = async (id) => {
-    return await CategoryModel.findById(id);
+// export const findItemById = async (id) => {
+//     return await CategoryModel.findById(id);
+// };
+export const findUserById = async (id) => {
+    return await UserModel.findById(id);
 };
 
-export const findItems = async (query = {}) => {
-    return await CategoryModel.find({});
+// export const findItems = async (query = {}) => {
+//     return await CategoryModel.find({});
+// };
+export const findUsers = async (query = {}) => {
+    return await UserModel.find({});
 };
 
-export const deleteItemById = async (id) => {
-    return await CategoryModel.findByIdAndDelete(id);
-};
+// export const deleteItemById = async (id) => {
+//     return await CategoryModel.findByIdAndDelete(id);
+// };

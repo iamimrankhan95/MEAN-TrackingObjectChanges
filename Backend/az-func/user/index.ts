@@ -6,6 +6,7 @@ const httpTrigger: AzureFunction = async function (
     req: HttpRequest
 ): Promise<void> {
     try {
+        context.log('HTTP trigger function processed a request.');
         let response = null;
 
         // create 1 db connection for all functions
@@ -15,20 +16,21 @@ const httpTrigger: AzureFunction = async function (
             case "GET":
                 if (req?.query.id || (req?.body && req?.body?.id)) {
                     response = {
-                        documentResponse: await db.findItemById(req?.body?.id),
+                        documentResponse: await db.findUserById(req?.body?.id),
                     };
                 } else {
                     // allows empty query to return all items
                     const dbQuery =
                         req?.query?.dbQuery || (req?.body && req?.body?.dbQuery);
                     response = {
-                        documentResponse: await db.findItems(dbQuery),
+                        documentResponse: await db.findUsers(dbQuery),
                     };
                 }
                 break;
             case "POST":
                 if (req?.body?.document) {
-                    const insertOneResponse = await db.addItem(req?.body?.document);
+                    context.log(req?.body);
+                    const insertOneResponse = await db.addUser(req?.body?.document);
                     response = {
                         documentResponse: insertOneResponse,
                     };
@@ -37,16 +39,16 @@ const httpTrigger: AzureFunction = async function (
                 }
 
                 break;
-            case "DELETE":
-                if (req?.query?.id || (req?.body && req?.body?.id)) {
-                    response = {
-                        documentResponse: await db.deleteItemById(req?.body?.id),
-                    };
-                } else {
-                    throw Error("No id found");
-                }
+            // case "DELETE":
+            //     if (req?.query?.id || (req?.body && req?.body?.id)) {
+            //         response = {
+            //             documentResponse: await db.deleteItemById(req?.body?.id),
+            //         };
+            //     } else {
+            //         throw Error("No id found");
+            //     }
 
-                break;
+            //     break;
             default:
                 throw Error(`${req.method} not allowed`)
         }
