@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/859dc217-e01b-4663-83c1-db8390762006/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/imran-mean-app-angular",
-    "appService.deploySubpath": "."
-}
