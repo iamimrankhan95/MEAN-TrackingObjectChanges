@@ -18,6 +18,7 @@ class HttpReqHandler {
         let rest: rm.RestClient = new rm.RestClient("user");
         let res: rm.IRestResponse<HttpResObj> = await rest.get<HttpResObj>(process.env["AZ_FUNC_BASEURL"] + "/user");
 
+        console.log('http call :--> ', process.env["AZ_FUNC_BASEURL"] + "/user");
         console.log('res:--> ', res);
         return res.result?.documentResponse;
     }
@@ -30,16 +31,17 @@ class HttpReqHandler {
         return res.result;
     }
 
-    async updateFromAzFuncUser(user: IUser) {
+    async updateAzFuncUser(user: IUser) {
         let httpReqObj: HttpReqObj = {
             document: user
         }
+
         let options: rm.IRequestOptions = this.httpBinOptions();
-        console.log('httpReqObj:--> ', httpReqObj);
         let rest: rm.RestClient = new rm.RestClient("user");
         let res: rm.IRestResponse<HttpResObj> = await rest.create<HttpResObj>(process.env["AZ_FUNC_BASEURL"] + "/user", httpReqObj);
 
-        console.log('res update:--> ', res);
+        console.log('http call :--> ', process.env["AZ_FUNC_BASEURL"] + "/user");
+
         return res.result?.documentResponse;
     }
 
@@ -49,7 +51,7 @@ class HttpReqHandler {
             return obj['data'];
         }
     
-        return options;
+        return options; 
     }
 
 }

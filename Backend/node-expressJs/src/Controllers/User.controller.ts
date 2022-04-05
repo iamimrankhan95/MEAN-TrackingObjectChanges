@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import WebSocketManager from '../managers/websocket.manager';
 import { IUser } from '../Models/User.model';
 import UserService from '../services/user.service';
 module UserController {
+    const userService: UserService = UserService.getServiceInstance();
+
     export const readUser = async (req: Request, res: Response, next: NextFunction) => {
-        let users: IUser[] = await UserService.getServiceInstance().readUser();
+        let users: IUser[] = await userService.readUser();
         res.status(200).json({ data: users });
     };
 
@@ -88,23 +89,22 @@ module UserController {
             },
         ];
 
-        const createdUsers = await UserService.getServiceInstance().createUser(users)
+        const createdUsers = await userService.createUser(users)
 
         res.status(200).json({ data: createdUsers });
     };
 
     export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-        const users = await UserService.getServiceInstance().deleteUser();
+        const users = await userService.deleteUser();
         res.status(200).json({ data: users });
     };
 
     export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-        const user = await UserService.getServiceInstance().updateUserStatus(req.body.name, req.body.status);
-        // WebSocketManager.getSocketManagerInstance().publish(JSON.stringify(user), false);
+        const user = await userService.updateUserStatus(req.body.name, req.body.status);
     };
 
     export const getUserFriends = async (req: Request, res: Response, next: NextFunction) => {
-        const users = await UserService.getServiceInstance().readUser();
+        const users = await userService.readUser();
         res.status(200).json({ data: users.filter(q => q.name !== req.params.name) });
     };
 }

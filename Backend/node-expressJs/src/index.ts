@@ -15,7 +15,7 @@ const expressServer = app.listen(process.env.PORT, process.env.HOST, (): void =>
 });
 
 Routes({ app })
-const mongodb = new DbManager(process.env.DATABASE).connectToDb();
+// const mongodb = new DbManager(process.env.DATABASE).connectToDb();
 const ws = WebSocketManager.getManagerInstance().establishSocket(expressServer, process.env.WEBSOCKET_URL);
 
 declare var process: {

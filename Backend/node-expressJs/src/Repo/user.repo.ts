@@ -32,7 +32,7 @@ class UserRepo {
         let result = await UserModel.insertMany(users);
         return result;
     }
-    
+
     async deleteUser(): Promise<IUser[]> {
         await UserModel.deleteMany({});
         let result = await this.readUsers();
@@ -40,9 +40,7 @@ class UserRepo {
     }
 
     async updateUserStatus(name: string, status: any): Promise<IUser | null> {
-        // let user:IUser = {name:name,status:status};
-        let httpResult = await this.httpReqHandler.updateFromAzFuncUser({name:name,status:status});
-        // let result = await UserModel.updateOne({ name: name }, { status: status });
+        let httpResult = await this.httpReqHandler.updateAzFuncUser({ name: name, status: status });
         let newUser = httpResult;
 
         if (newUser !== null) {

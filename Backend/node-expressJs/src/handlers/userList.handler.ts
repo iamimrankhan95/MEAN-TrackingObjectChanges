@@ -4,6 +4,8 @@ import UserRepo from "../Repo/user.repo";
 class UserListHandler {
     static isSignIn: boolean;
     static userListHandler: UserListHandler;
+    userRepo:UserRepo=UserRepo.getRepoInstance()
+
     constructor() {
     }
 
@@ -16,12 +18,12 @@ class UserListHandler {
     }
 
     public async readUser(): Promise<IUser[]> {
-        let users: IUser[] = await UserRepo.getRepoInstance().readUsers();
+        let users: IUser[] = await this.userRepo.readUsers();
         return users;
     }
 
     public async createUser(users:IUser[]): Promise<IUser[]> {
-        let newUsers: IUser[] = await UserRepo.getRepoInstance().createUsers(users);
+        let newUsers: IUser[] = await this.userRepo.createUsers(users);
         return newUsers;
     }
 
@@ -33,7 +35,7 @@ class UserListHandler {
     // }
 
     public async deleteUser(): Promise<IUser[]> {
-        let users: IUser[] = await UserRepo.getRepoInstance().deleteUser();
+        let users: IUser[] = await this.userRepo.deleteUser();
         return users;
     }
 

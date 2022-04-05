@@ -13,7 +13,6 @@ const routes = ({ app }: RoutesInput) => {
       });
 
     app.get("/api/user", UserController.readUser);
-    // app.post("/api/user", UserController.crea);
     app.delete("/api/user", UserController.deleteUser);
     app.put('/api/user', UserController.updateUser);
     app.post('/api/user/sign-in', AuthController.getUserSignedIn);
