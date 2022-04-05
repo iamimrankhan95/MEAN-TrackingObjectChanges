@@ -100,7 +100,9 @@ module UserController {
     };
 
     export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+        console.log('herea:--> ');
         const user = await userService.updateUserStatus(req.body.name, req.body.status);
+        res.status(200).json({ data: user });
     };
 
     export const getUserFriends = async (req: Request, res: Response, next: NextFunction) => {

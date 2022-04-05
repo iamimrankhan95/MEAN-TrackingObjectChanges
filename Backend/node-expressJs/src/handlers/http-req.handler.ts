@@ -41,7 +41,7 @@ class HttpReqHandler {
         let res: rm.IRestResponse<HttpResObj> = await rest.create<HttpResObj>(process.env["AZ_FUNC_BASEURL"] + "/user", httpReqObj);
 
         console.log('http call :--> ', process.env["AZ_FUNC_BASEURL"] + "/user");
-
+console.log('res.result?.documentResponse:--> ', res.result?.documentResponse);
         return res.result?.documentResponse;
     }
 
