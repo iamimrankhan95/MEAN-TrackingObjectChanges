@@ -33,9 +33,6 @@ class DbManager {
         
     }
 
-    public findItemById = async (id) => {
-        return await CategoryModel.findById(id);
-    };
 }
 
 export default DbManager;

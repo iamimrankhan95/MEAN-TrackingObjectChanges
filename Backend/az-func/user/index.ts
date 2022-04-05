@@ -1,5 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import * as db from "../lib/azure-cosmosdb-mongodb";
+// import * as db from "../lib/azure-cosmosdb-mongodb";
+import DbManager from "../lib/managers/db.manager";
+import UserService from "../lib/services/user.service";
 
 const httpTrigger: AzureFunction = async function (
     context: Context,
@@ -7,30 +9,33 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
     try {
         context.log('HTTP trigger function processed a request.');
-        let response = null;
 
-        // create 1 db connection for all functions
-        await db.init();
+        let response = null;
+        const dbManager: DbManager = DbManager.getManagerInstance();
+        const userService: UserService = UserService.getServiceInstance();
+
+        await dbManager.connectToDb(process.env["CosmosDbConnectionString"]);
 
         switch (req.method) {
             case "GET":
+
                 if (req?.query.id || (req?.body && req?.body?.id)) {
                     response = {
-                        documentResponse: await db.findUserById(req?.body?.id),
+                        documentResponse: await userService.readUserById(),
                     };
                 } else {
                     // allows empty query to return all items
                     const dbQuery =
                         req?.query?.dbQuery || (req?.body && req?.body?.dbQuery);
                     response = {
-                        documentResponse: await db.findUsers(dbQuery),
+                        documentResponse: await userService.readUser(),
                     };
                 }
                 break;
-            case "POST": 
+            case "POST":
                 context.log(req?.body);
                 if (req?.body?.document) {
-                    const insertOneResponse = await db.updateUserByName(req?.body?.document);
+                    const insertOneResponse = await userService.updateUserStatus(req?.body?.document.name, req?.body?.document.status);
                     response = {
                         documentResponse: insertOneResponse,
                     };
@@ -39,18 +44,18 @@ const httpTrigger: AzureFunction = async function (
                 }
 
                 break;
-            case "PUT": 
-                context.log(req?.body);
-                if (req?.body?.document) {
-                    const insertOneResponse = await db.updateUserByName(req?.body?.document);
-                    response = {
-                        documentResponse: insertOneResponse,
-                    };
-                } else {
-                    throw Error("No document found");
-                }
+            // case "PUT": 
+            //     context.log(req?.body);
+            //     if (req?.body?.document) {
+            //         const insertOneResponse = await db.updateUserByName(req?.body?.document);
+            //         response = {
+            //             documentResponse: insertOneResponse,
+            //         };
+            //     } else {
+            //         throw Error("No document found");
+            //     }
 
-                break;
+            //     break;
             // case "DELETE":
             //     if (req?.query?.id || (req?.body && req?.body?.id)) {
             //         response = {
