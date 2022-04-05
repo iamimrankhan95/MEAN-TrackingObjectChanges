@@ -16,8 +16,8 @@ export class AuthenticationService {
     return this.httpClient.post<{ data: User }>(`${urls.user.signIn}`,user)
   }
 
-  updateUser(userCred:any): Observable<{ data: User }> {
-    return this.httpClient.put<{ data: User }>(`${urls.user.update}`,userCred)
+  updateUser(user:User): Observable<{ data: User }> {
+    return this.httpClient.put<{ data: User }>(`${urls.user.update}`,user)
   }
 
   getUserSignedOut(user:User): Observable<{ data: User }> {

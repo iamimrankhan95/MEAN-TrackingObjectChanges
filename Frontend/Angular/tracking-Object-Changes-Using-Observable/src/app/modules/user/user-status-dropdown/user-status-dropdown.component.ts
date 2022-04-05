@@ -74,10 +74,10 @@ export class UserStatusDropdownComponent implements OnInit {
   changeStatus() {
     this.authenticationService.updateUser(this.signedInUser).subscribe({
       next: (res) => {
-        this.websocketService.sendMessage({
-          message: this.signedInUser,
-          type: "update",
-        });
+        // this.websocketService.sendMessage({
+        //   message: this.signedInUser,
+        //   type: "update",
+        // });
         alert("Status updated successfully");
       },
       error: (err) => {
@@ -92,10 +92,10 @@ export class UserStatusDropdownComponent implements OnInit {
     this.authenticationService.getUserSignedOut(this.signedInUser).subscribe(
       {
         next: (res) => {
-          this.websocketService.sendMessage({
-            message: this.signedInUser,
-            type: "entry",
-          });
+          // this.websocketService.sendMessage({
+          //   message: this.signedInUser,
+          //   type: "entry",
+          // });
           this.websocketService.closeWebSocket();
           this.router.navigateByUrl('authentication');
         },
