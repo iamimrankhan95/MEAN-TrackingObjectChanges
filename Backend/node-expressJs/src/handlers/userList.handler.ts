@@ -27,13 +27,6 @@ class UserListHandler {
         return newUsers;
     }
 
-    // public async update(user:IUser): Promise<IUser[]> {
-    //     let result = await UserModel.updateOne({name:user.name},{status: user.status});
-    //     let newUser = result.acknowledged === true ? UserModel.findOne({ name: oldUser.name }) : null;
-    //     let newUsers: IUser[] = await UserRepo.getRepoInstance().createUsers(users);
-    //     return newUsers;
-    // }
-
     public async deleteUser(): Promise<IUser[]> {
         let users: IUser[] = await this.userRepo.deleteUser();
         return users;

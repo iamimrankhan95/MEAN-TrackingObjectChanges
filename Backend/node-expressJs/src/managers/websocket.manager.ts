@@ -4,7 +4,6 @@ import Publisher from '../publishers/publisher';
 
 export class WebSocketManager {
 
-    // private publisher: Publisher = Publisher.getInstance();
     private static webSocketManager: WebSocketManager;
     private webSocketServer!: WebSocketServer;
     server!: http.Server;
@@ -49,24 +48,6 @@ export class WebSocketManager {
         });
 
     }
-
-    // publishExcludingItself(sender: WebSocket, data: string | null, isBinary: boolean) {
-    //     console.log('this.websocketServer.clients.length:--> ', this.webSocketServer.clients.size);
-    //     this.webSocketServer.clients.forEach(function each(client) {
-    //         if (client.readyState === WebSocket.OPEN) {
-    //             client.send(data, { binary: isBinary });
-    //         }
-    //     });
-    // }
-
-    // publishToItself(sender: WebSocket, data: string | null, isBinary: boolean) {
-    //     console.log('this.websocketServer.clients.length:--> ', this.webSocketServer.clients.size);
-    //     this.webSocketServer.clients.forEach(function each(client) {
-    //         if (client.readyState === WebSocket.OPEN) {
-    //             client.send(data, { binary: isBinary });
-    //         }
-    //     });
-    // }
 
     broadcastToEveryone(data: string | null, isBinary: boolean) {
         this.clients.forEach(function each(client) {

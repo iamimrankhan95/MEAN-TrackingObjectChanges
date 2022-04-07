@@ -2,7 +2,6 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import 'dotenv/config'
 import Routes from "./Routes"
-import DbManager from './managers/db.manager';
 import WebSocketManager from './managers/websocket.manager';
 
 const app: Application = express();
@@ -15,7 +14,6 @@ const expressServer = app.listen(process.env.PORT, process.env.HOST, (): void =>
 });
 
 Routes({ app })
-// const mongodb = new DbManager(process.env.DATABASE).connectToDb();
 const ws = WebSocketManager.getManagerInstance().establishSocket(expressServer, process.env.WEBSOCKET_URL);
 
 declare var process: {

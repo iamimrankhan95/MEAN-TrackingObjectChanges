@@ -19,7 +19,6 @@ class UserStatusListener {
     }
 
     notify(data: string | null, isBinary: boolean) {
-        // this.webSocketManager.publish(this.publisher.getClients(),data,isBinary);
         this.publisher.publishToEveryone(data,isBinary);
     }
 }

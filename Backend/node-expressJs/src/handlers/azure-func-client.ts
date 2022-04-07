@@ -1,17 +1,17 @@
 import * as rm from "typed-rest-client/RestClient";
 import { IUser } from "../Models/User.model";
 
-class HttpReqHandler {
+class AzureFuncClient {
     static isSignIn: boolean;
-    static HttpReqHandler: HttpReqHandler;
+    static AzureFuncClient: AzureFuncClient;
     constructor() {
     }
 
     public static getHandlerInstance() {
-        if (!this.HttpReqHandler) {
-            this.HttpReqHandler = new HttpReqHandler();
+        if (!this.AzureFuncClient) {
+            this.AzureFuncClient = new AzureFuncClient();
         }
-        return this.HttpReqHandler;
+        return this.AzureFuncClient;
     }
 
     async readFromAzFuncUser() {
@@ -56,7 +56,7 @@ console.log('res.result?.documentResponse:--> ', res.result?.documentResponse);
 
 }
 
-export default HttpReqHandler;
+export default AzureFuncClient;
 
 interface HttpResObj {
     documentResponse: any

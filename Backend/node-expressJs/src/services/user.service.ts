@@ -36,11 +36,6 @@ class UserService {
         let result = await this.userStatusHandler.updateUserStatus(name, Status);
         return result;
     }
-
-    // public async updateUser(user:IUser): Promise<IUser | null> {
-    //     let result = await UserListHandler.getHandlerInstance().updateUser(user);
-    //     return result;
-    // }
 }
 
 export default UserService;

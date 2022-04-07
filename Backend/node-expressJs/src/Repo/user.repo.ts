@@ -1,4 +1,4 @@
-import HttpReqHandler from "../handlers/http-req.handler";
+import AzureFuncClient from "../handlers/azure-func-client";
 import UserStatusListener from "../listeners/userStatus.listener";
 import UserModel, { IUser } from "../Models/User.model";
 
@@ -6,7 +6,7 @@ class UserRepo {
     static userRepo: UserRepo;
     connString: string = "";
     userStatusListener: UserStatusListener = UserStatusListener.getHandlerInstance();
-    httpReqHandler: HttpReqHandler = HttpReqHandler.getHandlerInstance();
+    AzureFuncClient: AzureFuncClient = AzureFuncClient.getHandlerInstance();
     private constructor() {
     }
 
@@ -18,9 +18,8 @@ class UserRepo {
     }
 
     public async readUsers(): Promise<IUser[]> {
-        // let result = await UserModel.find({});
         let users: IUser[] = [];
-        let httpResult = await this.httpReqHandler.readFromAzFuncUser();
+        let httpResult = await this.AzureFuncClient.readFromAzFuncUser();
 
         if (httpResult !== null) {
             users = httpResult;
@@ -40,7 +39,7 @@ class UserRepo {
     }
 
     async updateUserStatus(name: string, status: any): Promise<IUser | null> {
-        let httpResult = await this.httpReqHandler.updateAzFuncUser({ name: name, status: status });
+        let httpResult = await this.AzureFuncClient.updateAzFuncUser({ name: name, status: status });
         let newUser = httpResult;
 
         if (newUser !== null) {
@@ -48,8 +47,6 @@ class UserRepo {
         }
         return newUser;
     }
-
-
 }
 
 export default UserRepo;
