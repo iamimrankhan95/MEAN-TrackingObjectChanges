@@ -1,9 +1,17 @@
- <div class="row">
+<mat-toolbar style="margin-top: -85px;width: 138%;margin-left: -180px;">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>{{ title }}</span>
+  </mat-toolbar>
+ <div class="row" style="margin-top: 120px;">
     <div class="col-md-12">
         <mat-card>
             <mat-card-title>
                 User Login:  
             </mat-card-title>
+            <br>
+            <br>
             <mat-card-content>
                 <div class="col-md-12" >
                     <form [formGroup]="signInForm" (ngSubmit)="submitSignInForm()">
@@ -14,7 +22,7 @@
                               <mat-error *ngIf="signInForm.controls['userName'].invalid">{{getErrorMessage()}}</mat-error>
                             </mat-form-field>
                           </div>
-
+                          <br>
                         <div class="col-md-12" >
                         <button mat-raised-button type="submit"  color="accent">Sign in</button>
                         </div>
