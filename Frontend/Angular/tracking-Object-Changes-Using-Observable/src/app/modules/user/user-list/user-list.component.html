@@ -1,4 +1,6 @@
-<mat-card style="margin-left: -163px;width: 35%;height: 520px;margin-top: -8px;">
+<div class="row">
+  <div class="col-md-2">
+<mat-card style="margin-left: -163px;height: 520px;margin-top: -8px;width: 260px;">
       <mat-card-title><i class="bi bi-people-fill"></i> Friend List</mat-card-title>
       <mat-card-content>
         <mat-list>
@@ -23,3 +25,10 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
+</div>
+<div class="col-md-8">
+    <mat-card style="height: 520px;margin-top: -8px;width: 162.5%;margin-left: -60px;">
+      <mat-card-title style="text-align: center;margin-top: 120px;">Hello {{signedInUser.name.charAt(0).toUpperCase() + signedInUser.name.slice(1)}}, Welcome!</mat-card-title>
+    </mat-card>
+  </div>
+  </div>

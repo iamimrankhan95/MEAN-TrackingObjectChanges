@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/models/user.dto';
 import { UserService } from '../user.service';
 
@@ -8,6 +8,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
+  @Input() signedInUser!: User;
   friends!: User[];
   constructor(private userService:UserService) {
     this.userService.readUsersFromServer().subscribe({
