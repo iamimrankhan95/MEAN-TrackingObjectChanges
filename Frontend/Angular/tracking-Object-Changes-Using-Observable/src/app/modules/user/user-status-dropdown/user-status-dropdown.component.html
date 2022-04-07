@@ -1,17 +1,16 @@
-<div class="row">
-  <div class="col-md-12">
-    <mat-card>
-      <mat-card-content>
+    <mat-card style="margin-top: -80px;width: 135%;margin-left: -163px;height: 80px;">
         <div class="row">
           <div class="col-md-6">
-            <h2><i class="bi bi-person-square" style="margin-right: 5px;"></i> {{signedInUser.name}}</h2>
+            <h2><i class="bi bi-person-square" style="margin-right: 5px;"></i>{{signedInUser.name.charAt(0).toUpperCase() + signedInUser.name.slice(1) + ' '}}
+              <i class="bi bi-check-circle-fill" [style.color]="signedInUser.status.color" style="margin-right: 5px;font-size: 12px;"></i>
+              <span style="font-size: 12px;">{{signedInUser.status.name}}</span> </h2>
+            
           </div>
-          <div class="col-md-6" style="text-align: right;">
+          <!-- <div class="col-md-3" style="text-align: left;margin-top: 7px;margin-left: -180px;">
             <i class="bi bi-check-circle-fill" [style.color]="signedInUser.status.color" style="margin-right: 5px;"></i>
             <span>{{signedInUser.status.name}}</span>
-          </div>
-
-          <div class="col-md-12">
+          </div> -->
+          <div class="col-md-3" style="text-align: right;margin-top: -8px;margin-left: 190px;">
             <mat-form-field appearance="outline">
               <mat-label>{{signedInUser.status.name}}</mat-label>
               <mat-select [(ngModel)]="signedInUser.status" (selectionChange)="changeStatus()">
@@ -19,11 +18,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-md-6 offset-6" style="text-align: right;">
+          <div class="col-md-3" style="text-align: right;margin-top: 3px;margin-left: -200px;">
             <button mat-raised-button color="warn" (click)="onSignOut()">Sign out</button>
           </div>
+
+    
         </div>
-      </mat-card-content>
     </mat-card>
-  </div>
-</div>

@@ -20,6 +20,7 @@ export class SignInComponent implements OnInit {
   });
 
   signedInUser: User | undefined;
+  title = 'User Status Tracker';
 
   constructor(
     private authenticationService: AuthenticationService,
